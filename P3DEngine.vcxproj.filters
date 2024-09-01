@@ -25,6 +25,9 @@
     <Filter Include="lib\sfml\System">
       <UniqueIdentifier>{2764ac85-cd54-4b0f-9ea2-69090c630ce9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\map">
+      <UniqueIdentifier>{5f63de23-5083-4b4e-ae0b-e5c8d36e1229}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -32,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="src\platform.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\map.cpp">
+      <Filter>src\map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="lib\sfml\include\SFML\Window\WindowStyle.hpp">
       <Filter>lib\sfml\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\map\map.h">
+      <Filter>src\map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

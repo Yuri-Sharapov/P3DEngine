@@ -190,7 +190,7 @@ bool getPath(const char* szFullName, char* szPath, size_t size)
 
 bool isFullPath( const char* szPath )
 {
-#ifdef	PLATFORM_WIN
+#ifdef	PLATFORM_WINDOWS
     return szPath && szPath[ 1 ] == ':';
 #else
     return szPath && szPath[ 0 ] == '/';

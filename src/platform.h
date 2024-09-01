@@ -5,6 +5,17 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
+// using namespace sf in all project
+using namespace sf;
+
+// platform definition
+#if _WIN32 || _WIN64
+#define	PLATFORM_WINDOWS
+#endif
+#if __GNUC__
+#define	PLATFORM_LINUX
+#endif
+
 // own types
 // millisecond time
 typedef sf::Int32    timeMs_t;

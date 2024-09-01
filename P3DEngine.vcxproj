@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\map\map.cpp" />
     <ClCompile Include="src\platform.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +124,7 @@
     <ClInclude Include="lib\sfml\include\SFML\Window\WindowBase.hpp" />
     <ClInclude Include="lib\sfml\include\SFML\Window\WindowHandle.hpp" />
     <ClInclude Include="lib\sfml\include\SFML\Window\WindowStyle.hpp" />
+    <ClInclude Include="src\map\map.h" />
     <ClInclude Include="src\platform.h" />
   </ItemGroup>
   <ItemGroup>
