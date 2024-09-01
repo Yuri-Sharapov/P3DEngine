@@ -61,54 +61,53 @@ void file(const char* szFilename)
 namespace File
 {
 
-
 void* open(const char* szName, const char* szMode)
 {
     if (szName)
-        return fopen(szName, szMode);
+        return std::fopen(szName, szMode);
     else
         return nullptr;
 }
 
 void close(void* hFile)
 {
-    fclose((FILE*)hFile);
+    std::fclose((FILE*)hFile);
 }
 
 bool seek(void* hFile, int iOffset, int iFrom)
 {
-    return !fseek((FILE*)hFile, (long)iOffset, iFrom);
+    return !std::fseek((FILE*)hFile, (long)iOffset, iFrom);
 }
 
 size_t size(void* hFile)
 {
-    long iCurrentPos = ftell((FILE*)hFile);
+    long iCurrentPos = std::ftell((FILE*)hFile);
     seek(hFile, 0, SEEK_END);
-    long iSize = ftell((FILE*)hFile);
+    long iSize = std::ftell((FILE*)hFile);
     seek(hFile, iCurrentPos, SEEK_SET);
     return iSize;
 }
 
 bool write(void* hFile, const void* pBuffer, size_t iSize)
 {
-    size_t iWritten = fwrite( pBuffer, 1, iSize, ( FILE* )hFile );
+    size_t iWritten = std::fwrite(pBuffer, 1, iSize, (FILE*)hFile);
     return iWritten == iSize;
 }
 
 bool read(void* hFile, void* pBuffer, size_t iSize)
 {
-    size_t iRead = fread( pBuffer, 1, iSize, (FILE*)hFile );
+    size_t iRead = std::fread(pBuffer, 1, iSize, (FILE*)hFile);
     return iRead == iSize;
 }
 
 void flush(void* hFile)
 {
-    fflush((FILE*)hFile);
+    std::fflush((FILE*)hFile);
 }
 
 bool remove(const char* szFile)
 {
-    return !::remove( szFile );
+    return !std::remove(szFile);
 }
 
 const char* getNameExt(const char* szFullName)
@@ -116,25 +115,25 @@ const char* getNameExt(const char* szFullName)
     if( !szFullName )
         return nullptr;
 
-    intptr_t iLen = (intptr_t)strlen( szFullName );
-    while( iLen >= 0 && szFullName[ iLen ] != '\\' && szFullName[ iLen ] != '/' )
-        iLen--;
+    intptr_t len = (intptr_t)strlen( szFullName );
+    while(len >= 0 && szFullName[len] != '\\' && szFullName[len] != '/' )
+        len--;
 
-    return ( iLen >= 0 ) ? &szFullName[ iLen + 1 ] : szFullName;
+    return (len >= 0) ? &szFullName[len + 1] : szFullName;
 }
 
 const char* getExt(const char* szFullName)
 {
-    intptr_t iLen = ( intptr_t )strlen( szFullName );
-    while( iLen >= 0 && szFullName[ iLen ] != '\\' && szFullName[ iLen ] != '/' && szFullName[ iLen ] != '.' )
-        iLen--;
+    intptr_t len = (intptr_t)strlen(szFullName);
+    while(len >= 0 && szFullName[len] != '\\' && szFullName[len] != '/' && szFullName[len] != '.' )
+        len--;
 
-    return ( iLen >= 0 ) ? &szFullName[ iLen + 1 ] : "";
+    return (len >= 0) ? &szFullName[len + 1] : "";
 }
 
-bool getName(const char* szFullName, char* szName, size_t iSize)
+bool getName(const char* szFullName, char* szName, size_t size)
 {
-    if( !szFullName || !iSize )
+    if( !szFullName || !size)
     {
         szName[ 0 ] = 0;
         return false;
@@ -142,33 +141,33 @@ bool getName(const char* szFullName, char* szName, size_t iSize)
 
     const char* szNameExt = getNameExt(szFullName);
     size_t i = 0;
-    while( szNameExt[ i ] && szNameExt[ i ] != '.' )
+    while(szNameExt[ i ] && szNameExt[ i ] != '.')
         i++;
 
-    if( i >= iSize )
+    if(i >= size)
     {
         szName[ 0 ]	= 0;
         return false;
     }
 
-    memcpy( szName, szNameExt, i );
+    memcpy(szName, szNameExt, i);
     szName[ i ]	= 0;
     return true;
 }
 
-bool getPath(const char* szFullName, char* szPath, size_t iSize)
+bool getPath(const char* szFullName, char* szPath, size_t size)
 {
     const char* szNameExt = getNameExt( szFullName );
-    size_t iPathSize = szNameExt - szFullName;
+    size_t pathSize = szNameExt - szFullName;
 
-    if( iPathSize >= iSize )
+    if(pathSize >= size)
     {
         szPath[ 0 ]	= 0;
         return false;
     }
 
-    memcpy( szPath, szFullName, iPathSize );
-    szPath[ iPathSize ] = 0;
+    memcpy(szPath, szFullName, pathSize);
+    szPath[pathSize] = 0;
     return true;
 }
 
@@ -176,34 +175,26 @@ bool isFullPath( const char* szPath )
 {
 #ifdef	PLATFORM_WIN
     return szPath && szPath[ 1 ] == ':';
-#else	// PLATFORM_WIN
+#else
     return szPath && szPath[ 0 ] == '/';
-#endif	// PLATFORM_WIN
+#endif
 }
 
 void appendExt(char* szFullName, const char* szExt)
 {
-    size_t iExt = strlen( szExt );
-    if( szExt[ 0 ] == '.' )
+    size_t extLen = strlen( szExt );
+    if(extLen && szExt[0] == '.')
     {
         szExt++;
-        iExt--;
+        extLen--;
     }
-    if( !iExt )
+    if(extLen == 0)
         return;
 
-    size_t iFile = strlen( szFullName );
-    if( iFile && szFullName[ iFile - 1 ] == '.' )
-        szFullName[ --iFile ] = 0;
+    size_t nameLen = strlen(szFullName);
+    if(nameLen && szFullName[nameLen - 1] == '.' )
+        szFullName[--nameLen] = 0;
 
-    if( iFile > iExt )
-    {
-        char S[ 256 ];
-        char S2[ 64 ];
-        S2[ 0 ] = '.';
-        if( !strcmp( S, S2 ) )
-            return;
-    }
     strcat( szFullName, "." );
     strcat( szFullName, szExt );
 }
