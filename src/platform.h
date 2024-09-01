@@ -1,8 +1,6 @@
 #pragma once
 
-#include <cstdio>
 #include <cstdarg>
-#include <cstring>
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
@@ -14,6 +12,10 @@ typedef sf::Int32    timeMs_t;
 typedef sf::Int64    timeUs_t;
 // seconds since Jan 1 1970
 typedef sf::Uint64   timeUnix_t;
+
+timeMs_t	millis(void);
+timeUs_t	micros(void);
+timeUnix_t  secs(void);
 
 namespace Log
 {

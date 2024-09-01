@@ -1,25 +1,43 @@
+#include <cstdio>
+#include <cstring>
+#include <chrono>
+
 #include "platform.h"
 
+static sf::Clock g_mainClock;
+
+timeMs_t millis(void)
+{
+    return g_mainClock.getElapsedTime().asMilliseconds();
+}
+
+timeUs_t micros(void)
+{
+    return g_mainClock.getElapsedTime().asMicroseconds();
+}
+
+timeUnix_t secs(void)
+{
+    return g_mainClock.getElapsedTime().asSeconds();
+}
 
 namespace Log
 {
 
 static void*            g_hLogFile = nullptr;
-static timeMs_t         g_startTimeMs = 0;
 static sf::Mutex        g_logMutex;
-static sf::Clock        g_logClock;
 
 void write(const char* szFmt, ...)
 {
     g_logMutex.lock();
-    unsigned int iTicks = g_logClock.getElapsedTime().asMilliseconds(); - g_startTimeMs;
-    unsigned int iSecs = iTicks / 1000;
-    unsigned int iMSecs = iTicks % 1000;
-    unsigned int iMins = iSecs / 60;
-    unsigned int iHrs = iMins / 60;
-    iSecs %= 60;
-    iMins %= 60;
-    printf("%02i:%02i:%02i,%03i ", iHrs, iMins, iSecs, iMSecs);
+    int ticks = millis();
+    int milliseconds = ticks % 1000;
+    int secs = (ticks / 1000) % 60;
+    int mins = (ticks / (1000 * 60)) % 60;
+    int hours = (ticks / (1000 * 60 * 60)) % 24;
+
+
+    printf("%02i:%02i:%02i,%03i ", hours, mins, secs, milliseconds);
 
     va_list args;
     va_start(args, szFmt);
@@ -36,7 +54,7 @@ void write(const char* szFmt, ...)
         va_end( ptr );
         strcat( szBuf, "\n" );
         char szTmp[ 16 ];
-        snprintf( szTmp, sizeof( szTmp ), "%i:%02i:%02i,%03i\t", iHrs, iMins, iSecs, iMSecs );
+        snprintf( szTmp, sizeof( szTmp ), "%02i:%02i:%02i,%03i\t", hours, mins, secs, milliseconds);
         size_t bytes = strlen( szTmp );
         File::write( g_hLogFile, &szTmp, bytes );
         bytes = strlen( szBuf );
@@ -51,7 +69,6 @@ void file(const char* szFilename)
     if (g_hLogFile)
         return;
     g_logMutex.lock();
-    g_startTimeMs = g_logClock.getElapsedTime().asMilliseconds();
     g_hLogFile = File::open(szFilename, "w+");
     g_logMutex.unlock();
 }
