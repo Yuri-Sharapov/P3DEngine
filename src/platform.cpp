@@ -69,6 +69,7 @@ void file(const char* szFilename)
     if (g_hLogFile)
         return;
     g_logMutex.lock();
+    File::remove(szFilename);
     g_hLogFile = File::open(szFilename, "w+");
     g_logMutex.unlock();
 }
@@ -214,6 +215,21 @@ void appendExt(char* szFullName, const char* szExt)
 
     strcat( szFullName, "." );
     strcat( szFullName, szExt );
+}
+
+}
+
+namespace Math
+{
+
+float rad2Deg(float rad)
+{
+    return 180.0f * rad / PI;
+}
+
+float deg2Rad(float deg)
+{
+    return PI * deg / 180.0f;
 }
 
 }

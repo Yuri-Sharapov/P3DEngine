@@ -19,9 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\3dView\view.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\map\map.cpp" />
     <ClCompile Include="src\platform.cpp" />
+    <ClCompile Include="src\player\player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\sfml\include\SFML\Audio.hpp" />
@@ -124,8 +126,10 @@
     <ClInclude Include="lib\sfml\include\SFML\Window\WindowBase.hpp" />
     <ClInclude Include="lib\sfml\include\SFML\Window\WindowHandle.hpp" />
     <ClInclude Include="lib\sfml\include\SFML\Window\WindowStyle.hpp" />
+    <ClInclude Include="src\3dView\view.h" />
     <ClInclude Include="src\map\map.h" />
     <ClInclude Include="src\platform.h" />
+    <ClInclude Include="src\player\player.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\sfml\include\SFML\Audio\SoundFileFactory.inl" />

@@ -16,6 +16,32 @@ using namespace sf;
 #define	PLATFORM_LINUX
 #endif
 
+template<class T>
+constexpr inline T ABS(const T& val)
+{
+    return ((val > (T)0) ? val : -val);
+}
+
+template<typename T>
+constexpr inline T MIN(const T& one, const T& two)
+{
+    return one < two ? one : two;
+}
+
+template<typename T>
+constexpr inline T MAX(const T& one, const T& two)
+{
+    return one > two ? one : two;
+}
+
+template<class T>
+void inline SWAP(T& a, T& b)
+{
+    T tmp = a;
+    a = b;
+    b = tmp;
+}
+
 // own types
 // millisecond time
 typedef sf::Int32    timeMs_t;
@@ -52,4 +78,14 @@ extern bool        getPath(const char *szFullName, char *szPath, size_t size);
 extern bool        isFullPath(const char *szPath);
 extern bool        getName(const char *szFullName, char *szName, size_t size);
 extern void        appendExt(char *szFullName, const char *szExt);
+}
+
+namespace Math
+{
+
+constexpr float PI = 3.141592653589793116f;
+
+float rad2Deg(float rad);
+float deg2Rad(float deg);
+
 }

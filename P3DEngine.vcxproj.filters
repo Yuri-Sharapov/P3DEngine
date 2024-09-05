@@ -28,6 +28,12 @@
     <Filter Include="src\map">
       <UniqueIdentifier>{5f63de23-5083-4b4e-ae0b-e5c8d36e1229}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\player">
+      <UniqueIdentifier>{fed121d1-a4a9-46d3-bc47-8864f4e56fd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\3dView">
+      <UniqueIdentifier>{79126ca3-e748-42e5-9d62-e82e0f794dca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -38,6 +44,12 @@
     </ClCompile>
     <ClCompile Include="src\map\map.cpp">
       <Filter>src\map</Filter>
+    </ClCompile>
+    <ClCompile Include="src\player\player.cpp">
+      <Filter>src\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3dView\view.cpp">
+      <Filter>src\3dView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -346,6 +358,12 @@
     </ClInclude>
     <ClInclude Include="src\map\map.h">
       <Filter>src\map</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\player.h">
+      <Filter>src\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3dView\view.h">
+      <Filter>src\3dView</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

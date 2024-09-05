@@ -14,13 +14,17 @@ PMap::PMap(const char* szMapFile)
 	m_height = mapSize.y;
 
 	m_pData = new PMapCell[m_width * m_height];
+	
+	Image heightFile;
+	heightFile.loadFromFile("res/height_map.jpg");
 
 	for (size_t y = 0; y < m_height; y++)
 	{
 		for (size_t x = 0; x < m_width; x++)
 		{
 			Color pixel = mapFile.getPixel(x, y);
-			setCell(x, y, 0, pixel);
+			int height = heightFile.getPixel(x, y).r + heightFile.getPixel(x, y).g + heightFile.getPixel(x, y).b;
+			setCell(x, y, height, pixel);
 		}
 	}
 	Log::write("map created");
@@ -29,6 +33,11 @@ PMap::PMap(const char* szMapFile)
 PMap::~PMap()
 {
 	delete[] m_pData;
+}
+
+void PMap::addPlayer(PPlayer* pPlayer)
+{
+	m_pPlayer = pPlayer;
 }
 
 PMapCell PMap::getCell(int x, int y)
